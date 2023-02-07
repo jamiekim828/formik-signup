@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -15,7 +16,11 @@ const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string()
     .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
+      'Password should contain uppercase letter, lowercase letter and number'
+    ),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Password does not match')
     .required('Password confirmation is required'),
@@ -49,7 +54,7 @@ export default function SignUp() {
               onChange={handleChange}
             />
             {errors.firstName && touched.firstName ? (
-              <div>{errors.firstName}</div>
+              <p>{errors.firstName}</p>
             ) : null}
 
             <TextField
@@ -60,7 +65,7 @@ export default function SignUp() {
               onChange={handleChange}
             />
             {errors.lastName && touched.lastName ? (
-              <div>{errors.lastName}</div>
+              <p>{errors.lastName}</p>
             ) : null}
 
             <TextField
@@ -70,7 +75,7 @@ export default function SignUp() {
               name='email'
               onChange={handleChange}
             />
-            {errors.email && touched.email ? <div>{errors.email}</div> : null}
+            {errors.email && touched.email ? <p>{errors.email}</p> : null}
 
             <TextField
               id='filled-basic'
@@ -80,7 +85,7 @@ export default function SignUp() {
               onChange={handleChange}
             />
             {errors.password && touched.password ? (
-              <div>{errors.password}</div>
+              <p>{errors.password}</p>
             ) : null}
 
             <TextField
@@ -91,12 +96,22 @@ export default function SignUp() {
               onChange={handleChange}
             />
             {errors.confirmPassword && touched.confirmPassword ? (
-              <div>{errors.confirmPassword}</div>
+              <p>{errors.confirmPassword}</p>
             ) : null}
 
-            <button type='submit' className='submit'>
-              Sign Up
-            </button>
+            <div className='submit'>
+              <Button
+                type='submit'
+                color='secondary'
+                sx={{
+                  marginTop: '20px',
+                  fontWeight: '800',
+                  fontSize: '22px',
+                }}
+              >
+                Submit
+              </Button>
+            </div>
           </Form>
         )}
       </Formik>
