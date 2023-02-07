@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+
 import TextField from '@mui/material/TextField';
-import { Button } from '@mui/material';
+import { Button, InputAdornment } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -27,6 +30,8 @@ const SignupSchema = Yup.object().shape({
 });
 
 export default function SignUp() {
+  const [passwordVisibility, setPasswordVisibility] = useState(true);
+
   return (
     <div className='signup-div'>
       <h1>Sign Up</h1>
@@ -82,7 +87,23 @@ export default function SignUp() {
               label='Password'
               variant='filled'
               name='password'
+              type={passwordVisibility ? 'text' : 'password'}
               onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {passwordVisibility ? (
+                      <VisibilityIcon
+                        onClick={() => setPasswordVisibility(false)}
+                      />
+                    ) : (
+                      <VisibilityOffIcon
+                        onClick={() => setPasswordVisibility(true)}
+                      />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
             />
             {errors.password && touched.password ? (
               <p>{errors.password}</p>
@@ -94,7 +115,23 @@ export default function SignUp() {
               variant='filled'
               name='confirmPassword'
               onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    {passwordVisibility ? (
+                      <VisibilityIcon
+                        onClick={() => setPasswordVisibility(false)}
+                      />
+                    ) : (
+                      <VisibilityOffIcon
+                        onClick={() => setPasswordVisibility(true)}
+                      />
+                    )}
+                  </InputAdornment>
+                ),
+              }}
             />
+
             {errors.confirmPassword && touched.confirmPassword ? (
               <p>{errors.confirmPassword}</p>
             ) : null}
