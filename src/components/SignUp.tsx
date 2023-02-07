@@ -114,6 +114,7 @@ export default function SignUp() {
               label='Password Confirmation'
               variant='filled'
               name='confirmPassword'
+              type={passwordVisibility ? 'text' : 'password'}
               onChange={handleChange}
               InputProps={{
                 endAdornment: (
